@@ -1,7 +1,8 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Stock } from "src/entity/stock.entity";
+import { Stock } from "src/db/entity/stock.entity";
 import { Repository } from "typeorm";
+import { StockRepository } from "../repository/stock.repository";
 
 
 
@@ -10,7 +11,7 @@ export class StockRepositoryService {
 
     constructor(
         @InjectRepository(Stock)
-        private readonly stockRepository: StockRepositoryService,
+        private readonly stockRepository: StockRepository,
         private readonly logger: Logger
     ){}
 
