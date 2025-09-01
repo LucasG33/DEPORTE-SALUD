@@ -1,9 +1,9 @@
 import { Controller, Get, Post } from '@nestjs/common';
-import { StockService } from '../service/app.service';
+import { AppService } from '../service/app.service';
 
 @Controller()
-export class StockController {
-  constructor(private readonly appService: StockService) {}
+export class AppController {
+  constructor(private readonly appService: AppService) {}
 
   @Post('/cargar')
   insertarStock(stock: any){

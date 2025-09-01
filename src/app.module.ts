@@ -1,14 +1,9 @@
 import { Logger, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { StockController } from './stock/controller/app.controller';
-import { StockService } from './stock/service/app.service';
-import { StockRepositoryService } from './stock/database/service/stock.service';
-import { Sucursal } from './db/entity/sucursales.entity';
-import { Producto } from './db/entity/productos.entity';
-import { Stock } from './db/entity/stock.entity';
+import { AppController } from './denuncias/controller/app.controller';
+import { AppService } from './denuncias/service/app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import databaseConfig from './db/config/database.config';
-import { StockRepository } from './stock/database/repository/stock.repository';
+import databaseConfig from './infrastructure/db-config/database.config';
 
 @Module({
   imports: [
@@ -40,7 +35,7 @@ import { StockRepository } from './stock/database/repository/stock.repository';
         console.log('CONNECTING TO DATABASE')
         return {
           ...config,
-          entities: [Sucursal, Producto, Stock],
+          entities: [],
           logger: true,
           extra : {
             connectTimeout: 60000
@@ -52,7 +47,7 @@ import { StockRepository } from './stock/database/repository/stock.repository';
 
     
   ],
-  controllers: [StockController],
-  providers: [StockService, StockRepositoryService, StockRepository, Logger],
+  controllers: [AppController],
+  providers: [ AppService,/*  StockRepositoryService, StockRepository, */ Logger],
 })
 export class AppModule {}
