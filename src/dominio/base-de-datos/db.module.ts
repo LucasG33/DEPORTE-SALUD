@@ -6,12 +6,13 @@ import { Denuncia } from './entity/denuncia.entity';
 import { Nomina } from './entity/nomina.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import databaseConfig from 'src/infraestructura/db-config/database.config';
+import { DenunciasRepository } from './repositories/denuncias.repository';
+import { NominaRepository } from './repositories/clientes-nomina.repository';
 
 /* import { DenunciaService } from './services/denuncia.service'; */
 // import { OtraEntidadService } from './services/otra-entidad.service';
 
-const SERVICES = []
-const REPOSITORIES = []
+const REPOSITORIES = [DenunciasRepository, NominaRepository]
 
 @Module({
     imports: [
@@ -37,15 +38,11 @@ const REPOSITORIES = []
                 };
             },
         }),
-        TypeOrmModule.forFeature([
-            Denuncia,
-            Nomina,
-        ]),
+        TypeOrmModule.forFeature([Denuncia, Nomina], 'asociacion-veteranos-futbol'), 
     ],
     providers: [
-        ...SERVICES,
         ...REPOSITORIES,
     ],
-    exports: [TypeOrmModule],
+    exports: [TypeOrmModule, ...REPOSITORIES],
 })
 export class DatabaseModule { }
