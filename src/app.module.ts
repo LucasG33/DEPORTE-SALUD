@@ -1,9 +1,9 @@
-import { Logger, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppController } from './denuncias/controller/app.controller';
-import { AppService } from './denuncias/service/app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import databaseConfig from './infrastructure/db-config/database.config';
+import databaseConfig from './infraestructura/db-config/database.config';
+import { Denuncia } from './base-de-datos/entity/denuncia.entity';
+import { Nomina } from './base-de-datos/entity/nomina.entity';
 
 @Module({
   imports: [
@@ -13,29 +13,18 @@ import databaseConfig from './infrastructure/db-config/database.config';
       load: [databaseConfig]
     }),
 
-    /* TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: 'admin',
-      database: 'flux',
-      entities: [Sucursal, Producto, Stock],
-      synchronize: false, 
-    }),
-    TypeOrmModule.forFeature([Sucursal, Producto, Stock]), */
 
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      name: 'flux',
+      name: 'asociacion-veteranos-futbol',
 
       useFactory: async (configService: ConfigService) => {
         const config=  configService.get('database-config')
         console.log('CONNECTING TO DATABASE')
         return {
           ...config,
-          entities: [],
+          entities: [Denuncia, Nomina],
           logger: true,
           extra : {
             connectTimeout: 60000
@@ -47,7 +36,7 @@ import databaseConfig from './infrastructure/db-config/database.config';
 
     
   ],
-  controllers: [AppController],
-  providers: [ AppService,/*  StockRepositoryService, StockRepository, */ Logger],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
